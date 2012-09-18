@@ -1,4 +1,4 @@
-from knockblock.lattices.base import Lattice
+from knockblock.lattices.base import Lattice, monotone
 
 
 class SetLattice(Lattice):
@@ -8,12 +8,19 @@ class SetLattice(Lattice):
 
     def merge(self, other):
         if isinstance(other, SetLattice):
-            self._value |= other.value
+            return SetLattice(self.value | other.value)
         else:
             raise ValueError("You can only merge another SetLattice")
 
+    @monotone
+    def intersect(self, other):
+        return SetLattice(self.value & other.value)
+
     def __eq__(self, other):
         if isinstance(other, SetLattice):
-            return self._value == other.value
+            return self.value == other.value
         else:
             raise ValueError("You can only compare with another SetLattice")
+
+
+SetLattice.register(set)
