@@ -16,11 +16,5 @@ class SetLattice(Lattice):
     def intersect(self, other):
         return SetLattice(self.value & other.value)
 
-    def __eq__(self, other):
-        if isinstance(other, SetLattice):
-            return self.value == other.value
-        else:
-            raise ValueError("You can only compare with another SetLattice")
-
 
 SetLattice.register(set)

@@ -42,3 +42,9 @@ class Lattice(object):
     @abstractmethod
     def merge(self, other):
         pass
+
+    def __eq__(self, other):
+        if isinstance(other, Lattice):
+            return self.value == other.value
+        else:
+            raise ValueError("You can only compare with another Lattice")
