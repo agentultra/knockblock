@@ -11,4 +11,4 @@ class BoolLattice(Lattice):
                              "a boolean value.")
 
     def merge(self, other):
-        return BoolLattice(self.value or other.value)
+        return BoolLattice(self._value or other.value)

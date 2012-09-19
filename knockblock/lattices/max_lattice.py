@@ -8,13 +8,13 @@ class MaxLattice(Lattice):
         self._value = x
 
     def merge(self, other):
-        val = other.value if other.value > self.value else self.value
+        val = other.value if other.value > self._value else self._value
         return MaxLattice(val)
 
     @morphism
     def __gt__(self, other):
-        return BoolLattice(other.value < self.value)
+        return BoolLattice(other.value < self._value)
 
     @morphism
     def __ge__(self, other):
-        return BoolLattice(other.value <= self.value)
+        return BoolLattice(other.value <= self._value)

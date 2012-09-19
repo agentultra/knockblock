@@ -8,13 +8,10 @@ class SetLattice(Lattice):
 
     def merge(self, other):
         if isinstance(other, SetLattice):
-            return SetLattice(self.value | other.value)
+            return SetLattice(self._value | other.value)
         else:
             raise ValueError("You can only merge another SetLattice")
 
     @monotone
     def intersect(self, other):
-        return SetLattice(self.value & other.value)
-
-
-SetLattice.register(set)
+        return SetLattice(self._value & other.value)
