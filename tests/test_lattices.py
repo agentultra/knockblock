@@ -1,6 +1,9 @@
 import unittest
 
-from knockblock.lattices import BoolLattice, MaxLattice, SetLattice
+from knockblock.lattices import (BoolLattice,
+                                 MaxLattice,
+                                 MinLattice,
+                                 SetLattice)
 
 
 class TestBoolLattice(unittest.TestCase):
@@ -30,6 +33,21 @@ class TestMaxLattice(unittest.TestCase):
         a = MaxLattice(2)
         b = MaxLattice(2)
         c = b >= a
+        self.assertEqual(c, BoolLattice(True))
+
+
+class TestMinLattice(unittest.TestCase):
+
+    def test_merge(self):
+        a = MinLattice(3)
+        b = MinLattice(2)
+        c = a.merge(b)
+        self.assertEqual(c, MinLattice(2))
+
+    def test_lt(self):
+        a = MinLattice(3)
+        b = MinLattice(2)
+        c = b < a
         self.assertEqual(c, BoolLattice(True))
 
 
