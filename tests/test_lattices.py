@@ -44,3 +44,14 @@ class TestSetLattice(unittest.TestCase):
         a = SetLattice([1, 2])
         b = SetLattice([1, 3])
         self.assertEqual(a.intersect(b), SetLattice([1]))
+
+    def test_contains(self):
+        a = SetLattice([1, 2, 3])
+        b = a.contains(2)
+        c = a.contains(4)
+        self.assertEqual(b, BoolLattice(True))
+        self.assertEqual(c, BoolLattice(False))
+
+    def test_size(self):
+        a = SetLattice([1, 2, 3])
+        self.assertEqual(a.size, MaxLattice(3))
