@@ -14,4 +14,3 @@ class TestSetLattice(unittest.TestCase):
         a = SetLattice([1, 2])
         b = SetLattice([1, 3])
         self.assertEqual(a.intersect(b), SetLattice([1]))
-        self.assertTrue("intersect" in a.__monotonemethods__)

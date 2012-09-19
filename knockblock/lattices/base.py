@@ -12,17 +12,34 @@ def monotone(funcobj):
     return funcobj
 
 
+def morphism(funcobj):
+    """
+    A decorator indicating a morphism function.
+
+    Requires that the class is derived from Lattice.
+    """
+    funcobj.__ismorphismmethod__ = True
+    return funcobj
+
+
 class LatticeMeta(ABCMeta):
     def __new__(mcls, name, bases, namespace):
         cls = super(LatticeMeta, mcls).__new__(mcls, name, bases, namespace)
         monotones = set(name for name, value in namespace.items()
                         if getattr(value, "__ismonotonemethod__", False))
+        morphisms = set(name for name, value in namespace.items()
+                        if getattr(value, "__ismorphismmethod__", False))
         for base in bases:
             for name in getattr(base, "__monotonemethods__", set()):
                 value = getattr(cls, name, None)
                 if getattr(value, "__ismonotonemethod__", False):
                     monotones.add(name)
+            for name in getattr(base, "__morphismmethods__", set()):
+                value = getattr(cls, name, None)
+                if getattr(value, "__ismorphismmethod__", False):
+                    morphisms.add(name)
         cls.__monotonemethods__ = frozenset(monotones)
+        cls.__morphismmethods__ = frozenset(morphisms)
         return cls
 
 
