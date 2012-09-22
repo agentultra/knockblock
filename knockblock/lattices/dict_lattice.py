@@ -21,7 +21,11 @@ class DictLattice(Lattice):
 
     def merge(self, other):
         val = deepcopy(self._value)
-        val.update(other.value)
+        for k, v in other.items():
+            if k in val:
+                val[k].merge(v)
+            else:
+                val[k] = v
         return DictLattice(val)
 
     @property
