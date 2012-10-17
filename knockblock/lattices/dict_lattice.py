@@ -21,7 +21,8 @@ class DictLattice(Lattice):
 
     def merge(self, other):
         val = deepcopy(self._value)
-        for k, v in other.items():
+        other_val = deepcopy(other._value)
+        for k, v in other_val.items():
             if k in val:
                 val[k].merge(v)
             else:
