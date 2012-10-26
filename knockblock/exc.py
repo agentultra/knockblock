@@ -1,0 +1,1 @@
+class ProgrammingError(BaseException): pass
