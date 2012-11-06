@@ -1,10 +1,11 @@
 class Collection(object):
 
-    def __init__(self, kblock, name, schema):
+    def __init__(self, kblock, name, columns, keys=None):
         self._kblock = kblock
 
         self.name = name
-        self.schema = schema
+        self.columns = tuple(columns)
+        self.key_columns = tuple(keys) if keys else self.columns
 
         self._storage = []
 
