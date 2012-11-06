@@ -40,13 +40,14 @@ setup(
     zip_safe=False,
     install_requires=[
         # -*- Requirements -*-
+        'mock',
     ],
     entry_points = {
         # -*- Entry points -*-
     },
     classifiers=[
     	# see http://pypi.python.org/pypi?:action=list_classifiers
-        # -*- Classifiers -*- 
+        # -*- Classifiers -*-
         "Programming Language :: Python",
     ],
 )
