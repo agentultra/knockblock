@@ -21,3 +21,12 @@ class TestCollection(unittest.TestCase):
         c = Collection(self.mock_block, "crew", ["name", "rank"])
         c.insert(("Jean-Luc Picard", "Captain"))
         self.assertEqual(c.values(), [("Jean-Luc Picard", "Captain")])
+
+    def test_get_a_tuple(self):
+        c = Collection(self.mock_block, "crew",
+                       ["name", "rank", "salary"],
+                       keys=["name", "rank"])
+        c.insert(("Jean-Luc Picard", "Captain", 400))
+        c.insert(("Jeordi LaForge", "Engineer", 50))
+        self.assertEqual(c[("Jean-Luc Picard", "Captain")],
+                         ("Jean-Luc Picard", "Captain", 400))
