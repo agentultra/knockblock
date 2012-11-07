@@ -1,6 +1,8 @@
 from collections import namedtuple
 from operator import attrgetter
 
+from knockblock import exceptions as exc
+
 
 class Collection(object):
 
@@ -10,6 +12,8 @@ class Collection(object):
         self.name = name
         self.columns = tuple(columns)
         self.key_columns = tuple(keys) if keys else self.columns
+        self.value_columns = tuple(c for c in columns if
+                                   c not in self.key_columns)
 
         self._struct = namedtuple(self.name, self.columns)
         self._storage = {}
@@ -23,7 +27,10 @@ class Collection(object):
         """
         fact = self._struct(*tup)
         key = tuple([attrgetter(k)(fact) for k in self.key_columns])
-        self._storage[key] = fact
+        if self._is_valid_fact(tup, key):
+            self._storage[key] = fact
+        else:
+            raise exc.KeyConstraintError("")
 
     def keys(self):
         """
@@ -48,10 +55,26 @@ class Collection(object):
 
         :returns: A list of tuples.
         """
-        value_columns = [c for c in self.columns if
-                         c not in self.key_columns]
         return self._project(lambda t: [attrgetter(k)(t) for
-                                        k in value_columns])
+                                        k in self.value_columns])
+
+    def _is_valid_fact(self, tup, key):
+        """
+        Return True if there is an existing fact in the collection for
+        key and the value columns of the tup and the existing fact do
+        not disagree.
+
+        :param tup: The new tup we want to try to insert.
+        :param key: The key we're trying to insert into.
+        :returns: Boolean
+        """
+        old = self._storage.get(key)
+        new = self._struct(*tup)
+        if old:
+            for c in self.value_columns:
+                if attrgetter(c)(old) != attrgetter(c)(new):
+                    return False
+        return True
 
     def _project(self, func):
         """

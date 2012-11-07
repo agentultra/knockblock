@@ -1,7 +1,7 @@
 import mock
 import unittest
 
-
+from knockblock import exceptions as exc
 from knockblock.collections.base import Collection
 
 
@@ -22,6 +22,18 @@ class TestCollection(unittest.TestCase):
         c.insert(("Jean-Luc Picard", "Captain"))
         self.assertEqual(c._storage.values(),
                          [("Jean-Luc Picard", "Captain")])
+
+    def test_insert_updated_value_raises_error(self):
+        c = Collection(self.mock_block, "crew",
+                       ["name", "rank", "salary"],
+                       keys=["name", "rank"])
+        c.insert(("Jean-Luc Picard", "Captain", 400))
+        try:
+            c.insert(("Jean-Luc Picard", "Captain", 100))
+        except exc.KeyConstraintError:
+            return True
+        else:
+            return False
 
     def test_get_a_tuple(self):
         c = Collection(self.mock_block, "crew",
