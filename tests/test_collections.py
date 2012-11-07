@@ -75,3 +75,19 @@ class TestCollection(unittest.TestCase):
         salaries = map(lambda t: t[0], vals)
         self.assertTrue(400 in salaries)
         self.assertTrue(50 in salaries)
+
+    def test_has_key(self):
+        c = Collection(self.mock_block, "crew",
+                       ["name", "rank", "salary"],
+                       keys=["name", "rank"])
+        c.insert(("Jean-Luc Picard", "Captain", 400))
+        c.insert(("Jeordi LaForge", "Engineer", 50))
+        self.assertTrue(("Jean-Luc Picard", "Captain") in c)
+
+    def test_does_not_have_key(self):
+        c = Collection(self.mock_block, "crew",
+                       ["name", "rank", "salary"],
+                       keys=["name", "rank"])
+        c.insert(("Jean-Luc Picard", "Captain", 400))
+        c.insert(("Jeordi LaForge", "Engineer", 50))
+        self.assertFalse(("James Kirk", "Captain") in c)

@@ -74,3 +74,6 @@ class Collection(object):
         :param key: A tuple of values that form the key of the fact.
         """
         return self._storage.get(key)
+
+    def __contains__(self, key):
+        return True if self._storage.get(key) else False
