@@ -26,9 +26,28 @@ class Collection(object):
         self._storage[key] = fact
 
     def keys(self):
+        """
+        Return a list of tuples from the key values of the collection.
+
+        It is important to note that this method is the keys
+        relational operator and does not have the same meaning as the
+        Python dictionary method.
+
+        :returns: A list of tuples.
+        """
         return self._storage.keys()
 
     def values(self):
+        """
+        Return a list of tuples from the non-key values of the
+        collection.
+
+        It is important to note that this method is the values
+        relational operator and does not have the same meaning as the
+        Python dictionary method.
+
+        :returns: A list of tuples.
+        """
         value_columns = [c for c in self.columns if
                          c not in self.key_columns]
         return self._project(lambda t: [attrgetter(k)(t) for
