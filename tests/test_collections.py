@@ -20,7 +20,8 @@ class TestCollection(unittest.TestCase):
     def test_insert_a_tuple(self):
         c = Collection(self.mock_block, "crew", ["name", "rank"])
         c.insert(("Jean-Luc Picard", "Captain"))
-        self.assertEqual(c.values(), [("Jean-Luc Picard", "Captain")])
+        self.assertEqual(c._storage.values(),
+                         [("Jean-Luc Picard", "Captain")])
 
     def test_get_a_tuple(self):
         c = Collection(self.mock_block, "crew",
@@ -61,3 +62,16 @@ class TestCollection(unittest.TestCase):
         self.assertTrue("Jeordi LaForge" in names)
         self.assertTrue("Captain" in ranks)
         self.assertTrue("Engineer" in ranks)
+
+    def test_get_values(self):
+        c = Collection(self.mock_block, "crew",
+                       ["name", "rank", "salary"],
+                       keys=["name", "rank"])
+        c.insert(("Jean-Luc Picard", "Captain", 400))
+        c.insert(("Jeordi LaForge", "Engineer", 50))
+        vals = c.values()
+        self.assertEqual(len(vals), 2)
+        self.assertEqual(len(vals[0]), 1)
+        salaries = map(lambda t: t[0], vals)
+        self.assertTrue(400 in salaries)
+        self.assertTrue(50 in salaries)

@@ -29,7 +29,10 @@ class Collection(object):
         return self._storage.keys()
 
     def values(self):
-        return self._storage.values()
+        value_columns = [c for c in self.columns if
+                         c not in self.key_columns]
+        return self._project(lambda t: [attrgetter(k)(t) for
+                                        k in value_columns])
 
     def _project(self, func):
         """
