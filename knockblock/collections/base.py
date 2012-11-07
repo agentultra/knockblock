@@ -22,5 +22,9 @@ class Collection(object):
     def values(self):
         return self._storage.values()
 
+    def _project(self, func):
+        return [tuple(func(t)) for t in self._storage.values() if
+                t is not None]
+
     def __getitem__(self, key):
         return self._storage.get(key)
