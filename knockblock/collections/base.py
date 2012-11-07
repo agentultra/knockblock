@@ -25,6 +25,9 @@ class Collection(object):
         key = tuple([attrgetter(k)(fact) for k in self.key_columns])
         self._storage[key] = fact
 
+    def keys(self):
+        return self._storage.keys()
+
     def values(self):
         return self._storage.values()
 

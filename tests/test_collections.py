@@ -28,8 +28,10 @@ class TestCollection(unittest.TestCase):
                        keys=["name", "rank"])
         c.insert(("Jean-Luc Picard", "Captain", 400))
         c.insert(("Jeordi LaForge", "Engineer", 50))
-        self.assertEqual(c[("Jean-Luc Picard", "Captain")],
-                         ("Jean-Luc Picard", "Captain", 400))
+        the_captain = c[("Jean-Luc Picard", "Captain")]
+        self.assertEqual(the_captain.name, "Jean-Luc Picard")
+        self.assertEqual(the_captain.rank, "Captain")
+        self.assertEqual(the_captain.salary, 400)
 
     def test_projection(self):
         c = Collection(self.mock_block, "crew",
@@ -43,3 +45,19 @@ class TestCollection(unittest.TestCase):
         names = map(lambda t: t[0], tups)
         self.assertTrue("Jean-Luc Picard" in names)
         self.assertTrue("Jeordi LaForge" in names)
+
+    def test_get_keys(self):
+        c = Collection(self.mock_block, "crew",
+                       ["name", "rank", "salary"],
+                       keys=["name", "rank"])
+        c.insert(("Jean-Luc Picard", "Captain", 400))
+        c.insert(("Jeordi LaForge", "Engineer", 50))
+        keys = c.keys()
+        self.assertTrue(len(keys), 2)
+        self.assertTrue(len(keys[0]), 2)
+        names = map(lambda k: k[0], keys)
+        ranks = map(lambda k: k[1], keys)
+        self.assertTrue("Jean-Luc Picard" in names)
+        self.assertTrue("Jeordi LaForge" in names)
+        self.assertTrue("Captain" in ranks)
+        self.assertTrue("Engineer" in ranks)
