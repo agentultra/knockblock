@@ -116,3 +116,13 @@ class TestCollection(unittest.TestCase):
         self.assertEqual(sorted_values,
                          [("Jeordi LaForge", "Engineer", 50),
                           ("Jean-Luc Picard", "Captain", 400)])
+
+    def test_merge(self):
+        c = Collection(self.mock_block, "crew",
+                       ["name", "rank", "salary"],
+                       keys=["name", "rank"])
+        c.merge([("Jeordi LaForge", "Engineer", 50),
+                 ("Jean-Luc Picard", "Captain", 400)])
+        names = [t.name for t in c._storage.values()]
+        self.assertTrue("Jean-Luc Picard" in names)
+        self.assertTrue("Jeordi LaForge" in names)

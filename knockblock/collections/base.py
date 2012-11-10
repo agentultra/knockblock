@@ -37,6 +37,10 @@ class Collection(object):
             raise exc.KeyConstraintError("Unrecognized key: {0}".format(
                 key))
 
+    def merge(self, tups):
+        for tup in tups:
+            self.insert(tup)
+
     def keys(self):
         """
         Return a list of tuples from the key values of the collection.
