@@ -30,7 +30,8 @@ class Collection(object):
         if self._is_valid_fact(tup, key):
             self._storage[key] = fact
         else:
-            raise exc.KeyConstraintError("")
+            raise exc.KeyConstraintError("Unrecognized key: {0}".format(
+                key))
 
     def keys(self):
         """
