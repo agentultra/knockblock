@@ -1,4 +1,5 @@
 import mock
+import operator
 import unittest
 
 from knockblock import exceptions as exc
@@ -104,3 +105,14 @@ class TestCollection(unittest.TestCase):
         c.insert(("Jean-Luc Picard", "Captain", 400))
         c.insert(("Jeordi LaForge", "Engineer", 50))
         self.assertFalse(("James Kirk", "Captain") in c)
+
+    def test_sort_collection(self):
+        c = Collection(self.mock_block, "crew",
+                       ["name", "rank", "salary"],
+                       keys=["name", "rank"])
+        c.insert(("Jean-Luc Picard", "Captain", 400))
+        c.insert(("Jeordi LaForge", "Engineer", 50))
+        sorted_values = c.sort(key=operator.attrgetter("salary"))
+        self.assertEqual(sorted_values,
+                         [("Jeordi LaForge", "Engineer", 50),
+                          ("Jean-Luc Picard", "Captain", 400)])

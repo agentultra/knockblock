@@ -63,6 +63,9 @@ class Collection(object):
         return self._project(lambda t: [attrgetter(k)(t) for
                                         k in self.value_columns])
 
+    def sort(self, key=None):
+        return sorted(self._storage.values(), key=key)
+
     def _is_valid_fact(self, tup, key):
         """
         Return True if there is an existing fact in the collection for
