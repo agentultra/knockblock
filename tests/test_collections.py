@@ -14,8 +14,9 @@ class TestCollection(unittest.TestCase):
         c = Collection(self.mock_block, "crew",
                        ["name", "rank", "salary"],
                        keys=["name", "rank"])
-        self.assertEqual(c.key_columns, ("name", "rank"))
-        self.assertEqual(c.columns, ("name", "rank", "salary"))
+        value_columns, key_columns = c.schema
+        self.assertEqual(value_columns, ("salary",))
+        self.assertEqual(key_columns, ("name", "rank"))
 
     def test_insert_a_tuple(self):
         c = Collection(self.mock_block, "crew", ["name", "rank"])

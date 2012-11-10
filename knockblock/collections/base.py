@@ -18,6 +18,10 @@ class Collection(object):
         self._struct = namedtuple(self.name, self.columns)
         self._storage = {}
 
+    @property
+    def schema(self):
+        return self.value_columns, self.key_columns
+
     def insert(self, tup):
         """
         Insert a new fact into the collection.
