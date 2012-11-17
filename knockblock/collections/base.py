@@ -112,3 +112,6 @@ class Collection(object):
 
     def __contains__(self, key):
         return True if self._storage.get(key) else False
+
+    def __len__(self):
+        return len(self._storage)

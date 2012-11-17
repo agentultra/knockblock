@@ -126,3 +126,11 @@ class TestCollection(unittest.TestCase):
         names = [t.name for t in c._storage.values()]
         self.assertTrue("Jean-Luc Picard" in names)
         self.assertTrue("Jeordi LaForge" in names)
+
+    def test_len(self):
+        c = Collection(self.mock_block, "crew",
+                       ["name", "rank", "salary"],
+                       keys=["name", "rank"])
+        c.merge([("Jeordi LaForge", "Engineer", 50),
+                 ("Jean-Luc Picard", "Captain", 400)])
+        self.assertEqual(len(c), 2)
