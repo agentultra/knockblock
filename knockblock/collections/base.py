@@ -70,6 +70,16 @@ class Collection(object):
     def sort(self, key=None):
         return sorted(self._storage.values(), key=key)
 
+    def tick(self):
+        """
+        Called once at the end of a time-step of the Knockblock interpreter.
+
+        Sub-class implementations of this method should handle moving
+        pending tuples and clearing temporary storage.
+        """
+        raise NotImplementedError, "tick must be overridden in {0}".format(
+            self.__class__)
+
     def _is_valid_fact(self, tup, key):
         """
         Return True if there is an existing fact in the collection for

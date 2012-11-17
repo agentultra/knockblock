@@ -134,3 +134,10 @@ class TestCollection(unittest.TestCase):
         c.merge([("Jeordi LaForge", "Engineer", 50),
                  ("Jean-Luc Picard", "Captain", 400)])
         self.assertEqual(len(c), 2)
+
+    def test_tick_raises_NotImplemented(self):
+        c = Collection(self.mock_block, "crew",
+                       ["name", "rank", "salary"],
+                       keys=["name", "rank"])
+        self.assertRaises(NotImplementedError,
+                          c.tick)
